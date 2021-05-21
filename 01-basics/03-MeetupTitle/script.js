@@ -1,3 +1,24 @@
-// import Vue from './vendor/vue.esm.browser.js';
+import Vue from './vendor/vue.esm.browser.js';
 
-// Требуется создать Vue приложение
+new Vue({
+  style: {},
+  fetchMeetupHeader(currentInputChecked) {
+    return fetch(`https://course-vue.javascript.ru/api/meetups/${currentInputChecked}`).then((response) =>
+      response.json(),
+    );
+  },
+
+  data() {
+    return {
+      countInputs: 5,
+      currentInputChecked: '',
+      currentMeetupName: '',
+    };
+  },
+
+  watch: {
+    currentInputChecked(newValue) {
+      this.$options.fetchMeetupHeader(newValue).then((data) => (this.currentMeetupName = data.title));
+    },
+  },
+}).$mount('#app');
