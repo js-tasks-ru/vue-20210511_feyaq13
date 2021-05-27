@@ -72,6 +72,10 @@ ul {
   white-space: pre-line;
 }
 
+[v-cloak] {
+  display: none;
+}
+
 @media all and (max-width: 992px) {
   .container {
     padding: 0 16px;
