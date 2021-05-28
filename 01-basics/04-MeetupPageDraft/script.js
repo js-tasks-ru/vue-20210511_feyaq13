@@ -66,7 +66,13 @@ new Vue({
           '--bg-url': `url(${getImageUrlByImageId(this.rawDataMeetup.imageId)})`,
         },
 
-        date: new Date(this.rawDataMeetup.date).toLocaleString(navigator.language, {
+        dateNum: {
+          day: new Date(this.rawDataMeetup.date).getDate(),
+          month: new Date(this.rawDataMeetup.date).getMonth() + 1,
+          year: new Date(this.rawDataMeetup.date).getFullYear(),
+        },
+
+        dateHuman: new Date(this.rawDataMeetup.date).toLocaleString(navigator.language, {
           day: 'numeric',
           month: 'short',
           year: 'numeric',
