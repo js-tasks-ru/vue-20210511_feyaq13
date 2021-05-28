@@ -3,10 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <title>MeetupTitle</title>
+  <style>
+    label {
+      display: block;
+    }
+  </style>
 </head>
 <body>
 
-<!-- Решение -->
+<div id="app">
+  <input type="radio" name="meetupName" id="meetupName"
+   :value="i"
+   v-model="currentInputChecked"
+   v-for="(input, i) in countInputs"
+   :key="i++"
+  >
+  <label for="meetupName">{{ currentMeetupName }}</label>
+</div>
 
 <script type="module" src="script.js"></script>
 </body>

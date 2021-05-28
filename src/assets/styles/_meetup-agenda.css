@@ -39,6 +39,10 @@
   line-height: 28px;
 }
 
+.meetup-agenda__desc {
+  margin-top: 16px;
+}
+
 .meetup-agenda__lang {
   font-style: italic;
 }
@@ -47,11 +51,6 @@
   content: '•';
   color: var(--grey);
   padding: 0 1ch;
-}
-
-.meetup-agenda__item p {
-  margin-top: 16px;
-  margin-bottom: 0;
 }
 
 @media all and (min-width: 992px) {
