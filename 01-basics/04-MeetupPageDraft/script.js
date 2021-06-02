@@ -49,12 +49,9 @@ function fetchDataMeetup() {
 }
 
 new Vue({
-
   data() {
     return {
       rawDataMeetup: null,
-      agendaItemDefaultTitles,
-      agendaItemIcons,
     };
   },
 
@@ -79,6 +76,12 @@ new Vue({
           month: 'short',
           year: 'numeric',
         }),
+
+        agenda: this.rawDataMeetup.agenda.map((agendaItem) => ({
+          ...agendaItem,
+          icon: `icon-${agendaItemIcons[agendaItem.type]}.svg`,
+          title: agendaItem.title || agendaItemDefaultTitles[agendaItem.type],
+        })),
       };
     },
   },
