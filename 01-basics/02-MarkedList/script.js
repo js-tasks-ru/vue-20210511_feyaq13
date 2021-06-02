@@ -38,12 +38,11 @@ new Vue({
   },
 
   computed: {
-    matchEmails() {
-      if (this.valueInput) {
-        return emails.filter((email) => email.match(this.valueInput));
-      } else {
-        return [];
-      }
+    listEmails() {
+      return this.emails.map((email) => ({
+        value: email,
+        marked: this.valueInput === '' ? false : email.includes(this.valueInput),
+      }));
     },
   },
 }).$mount('#app');

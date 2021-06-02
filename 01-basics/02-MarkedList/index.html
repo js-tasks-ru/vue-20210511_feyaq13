@@ -12,13 +12,13 @@
 <body>
 
 <div id="app">
-  <input type="text" v-model="valueInput" />
+  <input class="" type="text" v-model="valueInput" />
   <ul>
     <li
-      :class="{'marked': matchEmails.includes(email) }"
-      v-for="email in emails"
+      :class="{'marked': email.marked }"
+      v-for="email in listEmails"
     >
-      {{ email }}
+      {{ email.value }}
     </li>
   </ul>
 </div>
