@@ -15,8 +15,7 @@
   <input type="radio" name="meetupName" id="meetupName"
    :value="i"
    v-model="currentInputChecked"
-   v-for="(input, i) in countInputs"
-   :key="i++"
+   v-for="i in countInputs"
   >
   <label for="meetupName">{{ currentMeetupName }}</label>
 </div>
