@@ -61,6 +61,7 @@ new Vue({
   computed: {
     meetup() {
       return {
+        ...this.rawDataMeetup,
         title: this.rawDataMeetup.title,
         desc: this.rawDataMeetup.description,
         image: this.rawDataMeetup.imageId && {
@@ -78,10 +79,6 @@ new Vue({
           month: 'short',
           year: 'numeric',
         }),
-
-        organizer: this.rawDataMeetup.organizer,
-        agenda: this.rawDataMeetup.agenda,
-        place: this.rawDataMeetup.place,
       };
     },
   },
