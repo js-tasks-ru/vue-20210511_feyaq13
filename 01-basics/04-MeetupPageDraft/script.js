@@ -44,10 +44,11 @@ const agendaItemIcons = {
   other: 'cal-sm',
 };
 
+function fetchDataMeetup() {
+  return fetch(`${API_URL}/meetups/${MEETUP_ID}`).then((response) => response.json());
+}
+
 new Vue({
-  fetchDataMeetup() {
-    return fetch(`${API_URL}/meetups/${MEETUP_ID}`).then((response) => response.json());
-  },
 
   data() {
     return {
@@ -86,7 +87,7 @@ new Vue({
   },
 
   mounted() {
-    this.$options.fetchDataMeetup().then((meetups) => {
+    fetchDataMeetup().then((meetups) => {
       this.rawDataMeetup = meetups;
     });
   },
