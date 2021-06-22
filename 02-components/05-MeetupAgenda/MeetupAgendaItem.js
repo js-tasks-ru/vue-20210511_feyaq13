@@ -6,7 +6,7 @@ const MeetupAgendaItem = {
   props: {
     agendaItem: {
       type: Object,
-      require: true,
+      required: true,
     },
   },
 
