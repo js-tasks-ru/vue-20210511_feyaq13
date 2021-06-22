@@ -1,7 +1,6 @@
 import Vue from './vendor/vue.esm.browser.js';
 
 new Vue({
-  style: {},
   fetchMeetupHeader(currentInputChecked) {
     return fetch(`https://course-vue.javascript.ru/api/meetups/${currentInputChecked}`).then((response) =>
       response.json(),

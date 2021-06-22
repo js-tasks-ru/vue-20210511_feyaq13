@@ -44,43 +44,50 @@ const agendaItemIcons = {
   other: 'cal-sm',
 };
 
-new Vue({
-  fetchDataMeetup() {
-    return fetch(`${API_URL}/meetups/${MEETUP_ID}`).then((response) => response.json());
-  },
+function fetchDataMeetup() {
+  return fetch(`${API_URL}/meetups/${MEETUP_ID}`).then((response) => response.json());
+}
 
+new Vue({
   data() {
     return {
       rawDataMeetup: null,
-      agendaItemDefaultTitles,
-      agendaItemIcons,
     };
   },
 
   computed: {
     meetup() {
       return {
+        ...this.rawDataMeetup,
         title: this.rawDataMeetup.title,
         desc: this.rawDataMeetup.description,
         image: this.rawDataMeetup.imageId && {
           '--bg-url': `url(${getImageUrlByImageId(this.rawDataMeetup.imageId)})`,
         },
 
-        date: new Date(this.rawDataMeetup.date).toLocaleString(navigator.language, {
+        dateNum: {
+          day: new Date(this.rawDataMeetup.date).getDate(),
+          month: new Date(this.rawDataMeetup.date).getMonth() + 1,
+          year: new Date(this.rawDataMeetup.date).getFullYear(),
+        },
+
+        dateHuman: new Date(this.rawDataMeetup.date).toLocaleString(navigator.language, {
           day: 'numeric',
           month: 'short',
           year: 'numeric',
         }),
 
-        organizer: this.rawDataMeetup.organizer,
-        agenda: this.rawDataMeetup.agenda,
-        place: this.rawDataMeetup.place,
+        agenda: this.rawDataMeetup.agenda.map((agendaItem) => ({
+          ...agendaItem,
+          icon: `icon-${agendaItemIcons[agendaItem.type]}.svg`,
+          title: agendaItem.title || agendaItemDefaultTitles[agendaItem.type],
+        })),
       };
     },
   },
 
   mounted() {
-    this.$options.fetchDataMeetup().then((meetups) => {
+    fetchDataMeetup().then((meetups) => {
       this.rawDataMeetup = meetups;
     });
   },
