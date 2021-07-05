@@ -29,7 +29,7 @@ const MeetupAgendaItem = {
       </div>
       <div class="meetup-agenda__item-col"> {{ agendaItem.startsAt }} - {{ agendaItem.endsAt }} </div>
       <div class="meetup-agenda__item-col">
-        <h5 class="meetup-agenda__title"> {{ agendaTitle }} </h5>
+        <h5 class="meetup-agenda__title" v-html="agendaTitle"></h5>
         <p v-if="agendaItem.type === 'talk'">
           <span> {{ agendaItem.speaker }} </span>
           <span class="meetup-agenda__dot"></span>
