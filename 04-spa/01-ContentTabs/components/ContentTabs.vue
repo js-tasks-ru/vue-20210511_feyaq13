@@ -27,18 +27,6 @@ export default {
       required: true,
     },
   },
-
-  computed: {
-    tabItems() {
-      return this.tabs.map((tab) => {
-        const item = { ...tab };
-        if (tab.to.name) {
-          item.to = `/${tab.to.name}`;
-        }
-        return item;
-      });
-    },
-  },
 };
 </script>
 
