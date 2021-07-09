@@ -6,7 +6,8 @@
 </head>
 <body>
 <div id="app">
-  <button @click="countClicks"> {{ counter }} </button>
+  <!-- упс, хак :( -->
+  <button @click="this.countClicks"> {{ counter }} </button>
 </div>
 
 <script type="module" src="script.js"></script>
