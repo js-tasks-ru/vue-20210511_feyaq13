@@ -16,7 +16,6 @@ describe('spa/NotFound', () => {
         localVue,
         router,
       });
-
       expect(wrapper.findComponent(PageA).exists()).toBe(false);
       await wrapper.vm.$router.replace('/page-a');
       expect(wrapper.findComponent(PageA).exists()).toBe(true);

@@ -1,26 +1,51 @@
-// import MeetupCover from './MeetupCover.js';
-// import MeetupDescription from './MeetupDescription.js';
-// import MeetupAgenda from './MeetupAgenda.js';
-// import MeetupInfo from './MeetupInfo.js';
-// import { getImageUrlByImageId } from './data.js';
+import MeetupCover from '../03-MeetupCover/MeetupCover.js';
+import MeetupDescription from '../02-MeetupDescription/MeetupDescription.js';
+import MeetupAgenda from '../05-MeetupAgenda/MeetupAgenda.js';
+import MeetupInfo from '../04-MeetupInfo/MeetupInfo.js';
+import { getImageUrlByImageId } from './data.js';
 
 const MeetupView = {
   name: 'MeetupView',
 
+  getImageUrlByImageId,
+
+  props: {
+    meetup: {
+      type: Object,
+      required: true,
+    },
+  },
+
+  computed: {
+    date() {
+      return new Date(this.meetup.date);
+    },
+    imageSrc() {
+      return this.meetup.imageId ? getImageUrlByImageId(this.meetup.imageId) : null;
+    },
+  },
+
+  components: {
+    MeetupDescription,
+    MeetupAgenda,
+    MeetupCover,
+    MeetupInfo,
+  },
+
   template: `
     <div>
-      <!-- meetup cover -->
+     <meetup-cover :title="meetup.title" :link="imageSrc" />
       <div class="container">
         <div class="meetup">
           <div class="meetup__content">
             <h3>Описание</h3>
-            <!-- meetup description -->
+            <meetup-description :description="meetup.description" />
 
             <h3>Программа</h3>
-            <!-- meetup agenda -->
+            <meetup-agenda :agenda="meetup.agenda" />
           </div>
           <div class="meetup__aside">
-            <!-- meetup info -->
+            <meetup-info :date="date" :place="meetup.place" :organizer="meetup.organizer" />
           </div>
         </div>
       </div>
