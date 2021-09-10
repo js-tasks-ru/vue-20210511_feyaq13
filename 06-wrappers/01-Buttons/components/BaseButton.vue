@@ -1,10 +1,30 @@
 <template>
-  <button type="button" class="button"></button>
+  <component :is="tag" class="button" v-bind="$attrs" :class="{ button_block: block }" :block="block" v-on="$listeners">
+    <slot />
+  </component>
 </template>
 
 <script>
 export default {
   name: 'BaseButton',
+  inheritAttrs: false,
+  props: {
+    block: {
+      type: Boolean,
+      default: false,
+    },
+
+    tag: {
+      type: [Object, String],
+      default: 'button',
+    },
+  },
+
+  methods: {
+    click(e) {
+      this.$emit('click', e.target.value);
+    },
+  },
 };
 </script>
 
