@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" class="button" v-bind="$attrs" :class="{ button_block: block }" :block="block" v-on="$listeners">
+  <component :is="tag" class="button" v-bind="$attrs" :class="{ button_block: block }" v-on="$listeners">
     <slot />
   </component>
 </template>
