@@ -21,11 +21,11 @@ describe('spa/Layouts', () => {
     });
 
     it('FormLayout не должен быть пустым', async () => {
-      expect(shallowMount(FormLayout).element.innerHTML).toBeTruthy();
+      expect(shallowMount(FormLayout, { props: ['title'] }).element.innerHTML).toBeTruthy();
     });
 
     it('AuthLayout не должен быть пустым', async () => {
-      expect(shallowMount(AuthLayout).element.innerHTML).toBeTruthy();
+      expect(shallowMount(AuthLayout, { props: ['title'] }).element.innerHTML).toBeTruthy();
     });
   });
 });

@@ -7,5 +7,3 @@ export default {
   name: 'MeetupsPage',
 };
 </script>
-
-<style scoped></style>
