@@ -20,6 +20,7 @@ describe('spa/Layouts', () => {
       expect(shallowMount(BaseLayout).element.innerHTML).toBeTruthy();
     });
 
+    //{ props: ['title'] } https://github.com/vuejs/vue-test-utils/issues/987
     it('FormLayout не должен быть пустым', async () => {
       expect(shallowMount(FormLayout, { props: ['title'] }).element.innerHTML).toBeTruthy();
     });
