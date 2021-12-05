@@ -33,17 +33,7 @@ export async function login(email, password) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
-  })
-    .then((res) => res.json())
-    .then((result) => {
-      if (!result.ok) {
-        throw Error(result.message);
-      }
-      alert(result.fullname);
-    })
-    .catch((error) => {
-      alert(error);
-    });
+  }).then((res) => res.json());
 }
 
 /**
@@ -60,13 +50,5 @@ export async function register(email, fullname, password) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, fullname, password }),
-  })
-    .then((res) => res.json())
-    .then((result) => {
-      if (!result.ok) {
-        throw Error(result.message);
-      }
-      alert(result.id);
-    })
-    .catch((error) => alert(error));
+  }).then((res) => res.json());
 }

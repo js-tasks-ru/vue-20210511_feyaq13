@@ -1,5 +1,5 @@
 <template>
-  <form class="form" autocomplete="off">
+  <form class="form" autocomplete="off" @submit.prevent="login">
     <div class="form-group">
       <label class="form-label">Email</label>
       <div class="input-group">
@@ -9,11 +9,17 @@
     <div class="form-group">
       <label class="form-label">Пароль</label>
       <div class="input-group">
-        <input v-model="password" type="password" placeholder="password" class="form-control" />
+        <input
+          v-model="password"
+          autocomplete="current-password"
+          type="password"
+          placeholder="password"
+          class="form-control"
+        />
       </div>
     </div>
     <div class="form__buttons">
-      <button type="submit" class="button button_primary button_block" @click.prevent="login">Войти</button>
+      <button type="submit" class="button button_primary button_block">Войти</button>
     </div>
     <div class="form__append">
       Нет аккаунта?
@@ -23,22 +29,56 @@
 </template>
 
 <script>
-import { paths } from '../router/paths';
+import { routeConfig } from '../router/paths';
 import { login } from '../data';
 
 export default {
   name: 'LoginPage',
-  data() {
-    return {
-      email: '',
-      password: '',
-      registerPath: paths.Register,
-    };
-  },
+
+  data: () => ({
+    email: '',
+    password: '',
+    registerPath: routeConfig.Register.path,
+    error: '',
+  }),
 
   methods: {
+    checkForm: function () {
+      if (!this.email) {
+        alert('Требуется ввести Email');
+        return false;
+      }
+      if (!this.password) {
+        alert('Требуется ввести пароль');
+        return false;
+      }
+
+      return true;
+    },
+
+    toIndexPage() {
+      let path = '/';
+      if (this.$route.query.from) {
+        path = this.$route.query.from;
+      }
+      return this.$router.push(path);
+    },
+
     login() {
-      login(this.email, this.password);
+      if (!this.checkForm()) {
+        return;
+      }
+
+      login(this.email, this.password)
+        .then((result) => {
+          if (result.error) {
+            this.error = result.message;
+            throw Error();
+          }
+          alert(result.fullname);
+          this.toIndexPage();
+        })
+        .catch(() => alert(this.error));
     },
   },
 };

@@ -1,4 +1,4 @@
-import { paths } from './paths';
+import { routeConfig } from './paths';
 import VueRouter from 'vue-router';
 
 export const routes = [
@@ -7,11 +7,13 @@ export const routes = [
     component: () => import('../views/IndexPage'),
   },
   {
-    path: paths.Register,
+    path: routeConfig.Register.path,
+    name: routeConfig.Register.name,
     component: () => import('../views/RegisterPage'),
   },
   {
-    path: paths.Login,
+    path: routeConfig.Login.path,
+    name: routeConfig.Login.name,
     component: () => import('../views/LoginPage'),
   },
 ];
