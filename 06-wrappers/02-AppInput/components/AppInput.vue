@@ -1,16 +1,55 @@
 <template>
-  <div class="input-group input-group_icon input-group_icon-left input-group_icon-right">
-    <img class="icon" />
-
-    <input ref="" class="form-control form-control_rounded form-control_sm" />
-
-    <img class="icon" />
+  <div
+    :class="{
+      'input-group_icon': Boolean($slots['left-icon']) || Boolean($slots['right-icon']),
+      'input-group_icon-left': Boolean($slots['left-icon']),
+      'input-group_icon-right': Boolean($slots['right-icon']),
+    }"
+    class="input-group"
+  >
+    <slot name="left-icon" />
+    <input
+      v-if="!multiline"
+      ref="input"
+      v-bind="$attrs"
+      :value="value"
+      :class="{ 'form-control_rounded': rounded, 'form-control_sm': small }"
+      class="form-control"
+      @input="$emit('input', $event.target.value)"
+      @change="$emit('change', $event.target.value)"
+    />
+    <textarea
+      v-else-if="multiline"
+      ref="input"
+      :value="value"
+      v-bind="$attrs"
+      :class="{ 'form-control_rounded': rounded, 'form-control_sm': small }"
+      class="form-control"
+      @input="$emit('input', $event.target.value)"
+      @change="$emit('change', $event.target.value)"
+    ></textarea>
+    <slot name="right-icon" />
   </div>
 </template>
 
 <script>
 export default {
   name: 'AppInput',
+  inheritAttrs: false,
+  model: {
+    prop: 'value',
+    event: 'input',
+  },
+
+  props: {
+    value: String,
+    rounded: Boolean,
+    small: Boolean,
+    multiline: {
+      type: Boolean,
+      default: false,
+    },
+  },
 };
 </script>
 
