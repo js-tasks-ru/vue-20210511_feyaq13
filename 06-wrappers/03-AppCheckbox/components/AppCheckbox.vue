@@ -1,6 +1,6 @@
 <template>
   <label class="checkbox">
-    <input type="checkbox" />
+    <input v-model="proxyChecked" v-bind="$attrs" :value="value" type="checkbox" @focus="onFocus" />
     <slot />
     <span></span>
   </label>
@@ -9,6 +9,42 @@
 <script>
 export default {
   name: 'AppCheckbox',
+  inheritAttrs: false,
+
+  model: {
+    prop: 'checked',
+    event: 'change',
+  },
+
+  props: {
+    checked: {
+      type: [Array, Boolean],
+      default: false,
+    },
+
+    value: {
+      type: String,
+      default: '',
+    },
+  },
+
+  computed: {
+    proxyChecked: {
+      get() {
+        return this.checked;
+      },
+
+      set(val) {
+        this.$emit('change', val);
+      },
+    },
+  },
+
+  methods: {
+    onFocus(e) {
+      this.$emit('focus', e.target.value);
+    },
+  },
 };
 </script>
 
