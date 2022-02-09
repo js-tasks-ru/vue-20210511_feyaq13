@@ -6,7 +6,7 @@
       <router-link :to="{ name: 'login' }">Вход</router-link>
     </nav>
     <base-layout>
-      <router-view />
+      <router-view class="container" />
     </base-layout>
   </div>
 </template>
@@ -19,4 +19,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+}
+</style>

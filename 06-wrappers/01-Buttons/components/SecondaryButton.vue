@@ -1,5 +1,5 @@
 <template>
-  <base-button class="button_secondary" v-bind="$attrs" v-on="$listeners">
+  <base-button class="button_secondary" v-bind="$props" v-on="$listeners">
     <slot />
   </base-button>
 </template>
@@ -10,6 +10,9 @@ export default {
   name: 'SecondaryButton',
   components: { BaseButton },
   inheritAttrs: false,
+  props: {
+    ...BaseButton.props,
+  },
 };
 </script>
 

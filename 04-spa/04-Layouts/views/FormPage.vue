@@ -1,7 +1,7 @@
 <template>
-  <form-layout title="Создать митап">
+  <FormLayout title="Создать митап">
     <form>Meetup Form</form>
-  </form-layout>
+  </FormLayout>
 </template>
 
 <script>
@@ -11,5 +11,3 @@ export default {
   components: { FormLayout },
 };
 </script>
-
-<style scoped></style>

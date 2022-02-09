@@ -1,7 +1,7 @@
 <template>
-  <auth-layout title="Вход">
+  <AuthLayout title="Вход">
     <form>Auth Page</form>
-  </auth-layout>
+  </AuthLayout>
 </template>
 
 <script>
@@ -11,5 +11,3 @@ export default {
   components: { AuthLayout },
 };
 </script>
-
-<style scoped></style>
