@@ -38,9 +38,14 @@ export default {
   data: () => ({
     email: '',
     password: '',
-    registerPath: routeConfig.Register.path,
     error: '',
   }),
+
+  computed: {
+    registerPath() {
+      return routeConfig.Register.name;
+    },
+  },
 
   methods: {
     checkForm: function () {
