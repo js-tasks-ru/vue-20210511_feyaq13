@@ -8,26 +8,17 @@
     class="input-group"
   >
     <slot name="left-icon" />
-    <input
-      v-if="!multiline"
-      ref="input"
+    <component
       v-bind="$attrs"
-      :value="value"
-      :class="{ 'form-control_rounded': rounded, 'form-control_sm': small }"
+      :is="inputType"
+      ref="input"
+      :value.prop="value"
       class="form-control"
+      :class="{ 'form-control_rounded': rounded, 'form-control_sm': small }"
       @input="$emit('input', $event.target.value)"
       @change="$emit('change', $event.target.value)"
+      v-on="$listeners"
     />
-    <textarea
-      v-else-if="multiline"
-      ref="input"
-      :value="value"
-      v-bind="$attrs"
-      :class="{ 'form-control_rounded': rounded, 'form-control_sm': small }"
-      class="form-control"
-      @input="$emit('input', $event.target.value)"
-      @change="$emit('change', $event.target.value)"
-    ></textarea>
     <slot name="right-icon" />
   </div>
 </template>
@@ -48,6 +39,12 @@ export default {
     multiline: {
       type: Boolean,
       default: false,
+    },
+  },
+
+  computed: {
+    inputType() {
+      return this.multiline ? 'textarea' : 'input';
     },
   },
 };
