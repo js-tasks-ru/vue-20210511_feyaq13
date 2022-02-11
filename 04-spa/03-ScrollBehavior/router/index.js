@@ -18,7 +18,7 @@ const scrollBehavior = (to, from, savedPosition) => {
   }
 
   if (from.matched) {
-    fromRouteMatchedHasSaveScrollPosition = fromRouteHasSaveScrollPosition
+    fromRouteMatchedHasSaveScrollPosition = fromRouteHasSaveScrollPosition;
   }
 
   if (fromRouteMatchedHasSaveScrollPosition) {
