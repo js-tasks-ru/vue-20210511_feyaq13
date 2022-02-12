@@ -16,7 +16,7 @@
 
     <hr />
 
-    <p>
+    <div>
       <form-group inline>
         <div class="input-group">
           <input class="form-control" placeholder="Inline" />
@@ -27,7 +27,7 @@
           <input class="form-control" placeholder="Inline" />
         </div>
       </form-group>
-    </p>
+    </div>
   </div>
 </template>
 
