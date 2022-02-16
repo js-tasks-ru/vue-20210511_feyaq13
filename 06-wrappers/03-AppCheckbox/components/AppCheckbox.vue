@@ -1,6 +1,6 @@
 <template>
   <label class="checkbox">
-    <input v-model="proxyChecked" v-bind="$attrs" :value="value" type="checkbox" @focus="onFocus" />
+    <input v-model="proxyChecked" v-bind="$attrs" :value="value" type="checkbox" @focus="onFocus" v-on="listeners" />
     <slot />
     <span></span>
   </label>
@@ -29,6 +29,14 @@ export default {
   },
 
   computed: {
+    listeners() {
+      const eventOmitOf = {};
+      for (const [evt, func] of Object.entries(this.$listeners)) {
+        if (evt !== 'change') eventOmitOf[evt] = func;
+      }
+      return eventOmitOf;
+    },
+
     proxyChecked: {
       get() {
         return this.checked;
