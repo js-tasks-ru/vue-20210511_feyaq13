@@ -30,11 +30,9 @@ export default {
 
   computed: {
     listeners() {
-      const eventOmitOf = {};
-      for (const [evt, func] of Object.entries(this.$listeners)) {
-        if (evt !== 'change') eventOmitOf[evt] = func;
-      }
-      return eventOmitOf;
+      const listeners = { ...this.$listeners };
+      delete listeners.change;
+      return listeners;
     },
 
     proxyChecked: {

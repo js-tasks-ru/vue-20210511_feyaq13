@@ -2,9 +2,11 @@ export class Toast {
   constructor() {
     this.index = Math.round(Math.random() * 100000);
     this.visible = true;
-    this.hide = function () {
-      this.visible = false;
-    };
+    this.init();
+  }
+
+  init() {
+    new Error('App: Abstract class is not for using!');
   }
 }
 
