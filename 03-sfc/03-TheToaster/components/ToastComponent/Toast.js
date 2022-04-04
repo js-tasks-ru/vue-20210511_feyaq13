@@ -6,7 +6,9 @@ export class Toast {
   }
 
   init() {
-    new Error('App: Abstract class is not for using!');
+    if (this.constructor === Toast) {
+      throw new Error('Abstract class is not for using!');
+    }
   }
 }
 
