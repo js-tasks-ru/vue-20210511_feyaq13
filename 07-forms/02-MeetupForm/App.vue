@@ -2,7 +2,13 @@
   <div id="app" class="wrapper bg-grey page">
     <div class="container">
       <pre><code>{{ meetup }}</code></pre>
-      <meetup-form :meetup="meetup" submit-text="Сабмит" @submit="handleSubmit" @cancel="handleCancel" />
+      <meetup-form
+        :meetup="meetup"
+        submit-text="Сабмит"
+        @add="handleAddItem"
+        @submit="handleSubmit"
+        @cancel="handleCancel"
+      />
     </div>
   </div>
 </template>
@@ -32,6 +38,10 @@ export default {
   methods: {
     handleSubmit(meetup) {
       this.meetup = meetup;
+    },
+
+    handleAddItem(agendaItem) {
+      this.meetup.agenda.push(agendaItem);
     },
 
     handleCancel() {
