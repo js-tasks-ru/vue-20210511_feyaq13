@@ -1,50 +1,59 @@
 <template>
-  <form class="form meetup-form">
+  <form class="form meetup-form" @submit.prevent="emitSubmit">
     <div class="meetup-form__content">
       <fieldset class="form-section">
-        <div class="form-group">
-          <label>Название</label>
-          <input class="form-control" />
-        </div>
-        <div class="form-group">
-          <label>Дата</label>
-          <input class="form-control" type="date" />
-        </div>
-        <div class="form-group">
-          <label>Место</label>
-          <input class="form-control" />
-        </div>
-        <div class="form-group">
-          <label>Описание</label>
-          <textarea class="form-control" rows="3"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Изображение</label>
-          <image-uploader />
-        </div>
+        <FormGroup label="Название">
+          <AppInput v-model="localMeetup.title"></AppInput>
+        </FormGroup>
+        <FormGroup label="Дата">
+          <DateInput v-model="localMeetup.date" />
+        </FormGroup>
+        <FormGroup label="Место">
+          <AppInput v-model="localMeetup.place"></AppInput>
+        </FormGroup>
+        <FormGroup label="Описание">
+          <AppInput v-model="localMeetup.description" multiline rows="3"></AppInput>
+        </FormGroup>
+        <FormGroup label="Изображение">
+          <image-uploader v-model="localMeetup.imageId" />
+        </FormGroup>
       </fieldset>
-
       <h3 class="form__section-title">Программа</h3>
-      <meetup-agenda-item-form class="mb-3" />
+      <MeetupAgendaItemForm
+        v-for="agenda in localMeetup.agenda"
+        :key="agenda.id"
+        class="mb-3"
+        :agenda-item="agenda"
+        @update:agendaItem="updateAgendaItem(agenda.id, $event)"
+        @remove="removeAgendaItem(agenda.id)"
+      />
 
       <div class="form-section_append">
-        <button type="button" data-test="addAgendaItem">+ Добавить этап программы</button>
+        <button type="button" data-test="addAgendaItem" @click="addMeetup">+ Добавить этап программы</button>
       </div>
     </div>
 
     <div class="meetup-form__aside">
       <div class="meetup-form__aside_stick">
         <!-- data-test атрибуты используются для поиска нужного элемента в тестах, не удаляйте их -->
-        <button class="button button_secondary button_block" type="button" data-test="cancel">Отмена</button>
-        <button class="button button_primary button_block" type="submit" data-test="submit">Submit</button>
+        <button class="button button_secondary button_block" type="reset" data-test="cancel" @click="emitCancel">
+          Отмена
+        </button>
+        <button class="button button_primary button_block" type="submit" data-test="submit">
+          {{ submitText }}
+        </button>
       </div>
     </div>
   </form>
 </template>
 
 <script>
+import FormGroup from './FormGroup';
+import AppInput from './AppInput';
+import DateInput from './DateInput';
 import MeetupAgendaItemForm from './MeetupAgendaItemForm.vue';
 import ImageUploader from './ImageUploader';
+import _ from 'lodash';
 
 let lastId = -1;
 function createAgendaItem() {
@@ -64,8 +73,63 @@ export default {
   name: 'MeetupForm',
 
   components: {
+    AppInput,
+    FormGroup,
+    DateInput,
     ImageUploader,
     MeetupAgendaItemForm,
+  },
+
+  props: {
+    meetup: {
+      type: Object,
+      required: true,
+    },
+
+    submitText: {
+      type: String,
+      default: 'Submit',
+    },
+  },
+
+  data() {
+    return {
+      localMeetup: _.cloneDeep(this.meetup),
+    };
+  },
+
+  methods: {
+    addMeetup() {
+      const agenda = createAgendaItem();
+      const lastAgenda = this.localMeetup.agenda[this.localMeetup.agenda.length - 1];
+      if (lastAgenda) {
+        agenda.startsAt = lastAgenda.endsAt;
+      }
+      this.localMeetup.agenda.push(agenda);
+      this.emitAddAgendaItem();
+    },
+
+    updateAgendaItem(id, agenda) {
+      const idx = this.localMeetup.agenda.findIndex((agenda) => agenda.id === id);
+      this.localMeetup.agenda.splice(idx, 1, { ...agenda });
+    },
+
+    removeAgendaItem(id) {
+      const idx = this.localMeetup.agenda.findIndex((agenda) => agenda.id === id);
+      this.localMeetup.agenda.splice(idx, 1);
+    },
+
+    emitAddAgendaItem() {
+      this.$emit('add', _.cloneDeep(this.localMeetup));
+    },
+
+    emitSubmit() {
+      this.$emit('submit', _.cloneDeep(this.localMeetup));
+    },
+
+    emitCancel() {
+      this.$emit('cancel');
+    },
   },
 };
 </script>
