@@ -20,7 +20,7 @@
     </p>
     <p>
       Value + Input
-      <app-input :value="value" @input="value = $event" />
+      <app-input :value="value" @input="foo" />
     </p>
     <p>
       Value + Change
@@ -44,6 +44,12 @@ export default {
       showIcons: true,
       focused: false,
     };
+  },
+
+  methods: {
+    foo(e) {
+      this.value = e;
+    },
   },
 };
 </script>

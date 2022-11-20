@@ -56,11 +56,11 @@ export default {
 
   computed: {
     optionSelected() {
-      return this.options.find((opt) => opt.value === this.value);
+      return this.options.find((option) => option.value === this.value);
     },
 
     optionSelectedText() {
-      return this.optionSelected && this.optionSelected.text ? `- ${this.optionSelected.text}` : '';
+      return this.optionSelected?.text ? `- ${this.optionSelected.text}` : '';
     },
   },
 
@@ -95,42 +95,6 @@ export default {
   text-decoration: none;
 }
 
-.button.button_block {
-  display: block;
-  width: 100%;
-}
-
-.button.button_primary {
-  background-color: var(--blue);
-  border-color: var(--blue);
-  color: var(--white);
-}
-
-.button.button_primary:hover {
-  background-color: var(--blue-light);
-  border-color: var(--blue-light);
-  color: var(--blue);
-}
-
-.button.button_secondary {
-  background-color: var(--white);
-  border-color: var(--blue);
-  color: var(--blue);
-}
-
-.button.button_secondary:hover {
-  border-color: var(--blue-light);
-}
-
-.button.button_danger {
-  background-color: var(--white);
-  border-color: var(--red);
-  color: var(--red);
-}
-
-.button.button_danger:hover {
-  border-color: var(--red-light);
-}
 .dropdown {
   position: relative;
   display: inline-block;

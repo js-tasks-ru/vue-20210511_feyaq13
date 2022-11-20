@@ -1,13 +1,14 @@
 <template>
   <div class="form-section form-section_inner">
-    <button type="button" class="remove-button">
+    <button type="button" class="remove-button" @click="$emit('remove')">
       <app-icon icon="trash" />
     </button>
 
     <div class="form-group">
-      <select class="form-control" title="Тип">
-        <option value="talk">Доклад</option>
-        <option value="other">Другое</option>
+      <select v-model="localAgendaItem.type" class="form-control" title="Тип">
+        <option v-for="type in typesList" :key="type.value" :value="type.value">
+          {{ type.text }}
+        </option>
       </select>
     </div>
 
@@ -15,35 +16,45 @@
       <div class="form__col">
         <div class="form-group">
           <label class="form-label">Начало</label>
-          <input class="form-control" type="time" placeholder="00:00" />
+          <input v-model="localAgendaItem.startsAt" class="form-control" type="time" placeholder="00:00" />
         </div>
       </div>
       <div class="form__col">
         <div class="form-group">
           <label class="form-label">Окончание</label>
-          <input class="form-control" type="time" placeholder="00:00" />
+          <input v-model="localAgendaItem.endsAt" class="form-control" type="time" placeholder="00:00" />
         </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Заголовок</label>
-      <input class="form-control" />
+    <div v-if="fieldsList.includes('title')" class="form-group">
+      <label class="form-label">{{ labelsList.title }}</label>
+      <input v-model="localAgendaItem.title" class="form-control" />
     </div>
-    <div class="form-group">
-      <label class="form-label">Описание</label>
-      <textarea class="form-control"></textarea>
+
+    <div v-if="fieldsList.includes('speaker')" class="form-group">
+      <label class="form-label">Докладчик</label>
+      <input v-model="localAgendaItem.speaker" class="form-control" />
     </div>
-    <div class="form-group">
+
+    <div v-if="fieldsList.includes('description')" class="form-group">
+      <label class="form-label">{{ labelsList.description }}</label>
+      <textarea v-model="localAgendaItem.description" class="form-control"></textarea>
+    </div>
+
+    <div v-if="fieldsList.includes('language')" class="form-group">
       <label class="form-label">Язык</label>
-      <select class="form-control"></select>
+      <select v-model="localAgendaItem.language" class="form-control">
+        <option v-for="lang in talkLanguagesList" :key="lang.value" :value="lang.value">
+          {{ lang.text }}
+        </option>
+      </select>
     </div>
   </div>
 </template>
 
 <script>
 import AppIcon from './AppIcon';
-
 const getAgendaItemTypes = () => [
   { value: 'registration', text: 'Регистрация' },
   { value: 'opening', text: 'Открытие' },
@@ -54,18 +65,109 @@ const getAgendaItemTypes = () => [
   { value: 'talk', text: 'Доклад' },
   { value: 'other', text: 'Другое' },
 ];
-
 const getTalkLanguages = () => [
   { value: null, text: 'Не указано' },
   { value: 'RU', text: 'RU' },
   { value: 'EN', text: 'EN' },
 ];
-
 export default {
   name: 'MeetupAgendaItemForm',
-
   components: { AppIcon },
+  props: {
+    agendaItem: {
+      type: Object,
+      required: true,
+    },
+  },
+
+  data() {
+    return {
+      localAgendaItem: { ...this.agendaItem },
+    };
+  },
+
+  computed: {
+    typesList() {
+      return getAgendaItemTypes();
+    },
+
+    talkLanguagesList() {
+      return getTalkLanguages();
+    },
+
+    fieldsList() {
+      const list = [];
+      switch (this.localAgendaItem.type) {
+        case 'other':
+          list.push('title', 'description');
+          break;
+        case 'talk':
+          list.push('title', 'description', 'speaker', 'language');
+          break;
+        default:
+          list.push('title');
+          break;
+      }
+      return list;
+    },
+
+    labelsList() {
+      const list = { title: null, description: null };
+      switch (this.localAgendaItem.type) {
+        case 'other':
+          list['title'] = 'Заголовок';
+          list['description'] = 'Описание';
+          break;
+        case 'talk':
+          list['title'] = 'Тема';
+          list['description'] = 'Описание';
+          break;
+        default:
+          list['title'] = 'Нестандартный текст (необязательно)';
+          break;
+      }
+      return list;
+    },
+
+    startsAt() {
+      return this.localAgendaItem.startsAt;
+    },
+  },
+
+  watch: {
+    localAgendaItem: {
+      deep: true,
+      handler() {
+        const item = { ...this.localAgendaItem };
+        this.$emit('update:agendaItem', item);
+      },
+    },
+
+    startsAt: function (value, oldValue) {
+      const newStartsAt = +toSeconds(value);
+      const oldStartsAt = +toSeconds(oldValue);
+      if (newStartsAt !== oldStartsAt) {
+        const diffSeconds = newStartsAt - oldStartsAt;
+        let currentEndsAt = +toSeconds(this.localAgendaItem.endsAt);
+        currentEndsAt += diffSeconds;
+        this.localAgendaItem.endsAt = getTime(currentEndsAt);
+      }
+    },
+  },
 };
+function getTime(seconds) {
+  return new Date(seconds * 1000).toISOString().slice(11, 16);
+}
+function toSeconds(str) {
+  let timeParts = str.split(':').map((item) => parseInt(item));
+  let seconds = 0;
+  seconds += timeParts[0] * 60 * 60;
+  seconds += timeParts[1] * 60;
+  if (timeParts.length > 2) {
+    seconds += timeParts[2];
+  }
+  return seconds;
+}
 </script>
 
 <style></style>
