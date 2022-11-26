@@ -53,7 +53,7 @@ import AppInput from './AppInput';
 import DateInput from './DateInput';
 import MeetupAgendaItemForm from './MeetupAgendaItemForm.vue';
 import ImageUploader from './ImageUploader';
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 let lastId = -1;
 function createAgendaItem() {
@@ -94,7 +94,7 @@ export default {
 
   data() {
     return {
-      localMeetup: _.cloneDeep(this.meetup),
+      localMeetup: cloneDeep(this.meetup),
     };
   },
 
@@ -120,11 +120,11 @@ export default {
     },
 
     emitAddAgendaItem() {
-      this.$emit('add', _.cloneDeep(this.localMeetup));
+      this.$emit('add', cloneDeep(this.localMeetup));
     },
 
     emitSubmit() {
-      this.$emit('submit', _.cloneDeep(this.localMeetup));
+      this.$emit('submit', cloneDeep(this.localMeetup));
     },
 
     emitCancel() {
