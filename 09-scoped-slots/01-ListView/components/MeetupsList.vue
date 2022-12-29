@@ -1,25 +1,18 @@
 <template>
   <list-view :items="meetupsWithCoverAndBadge">
-    <!--
-    "X" - некоторый элемент списка, полученный из параметров слота.
-    Имя параметра выберите сами и замените X на него в коде ниже.
-
-    <list-view-card
-      tag="router-link"
-      :to="{ name: 'meetup', params: { meetupId: X.id } }"
-      :key="X.id"
-      :title="X.title"
-      :cover="X.cover"
-      :badge="X.badge"
-      :badge-success="X.badgeSuccess"
-    >
-      <meetup-info
-        :date="X.date"
-        :place="X.place"
-        :organizer="X.organizer"
-      />
-    </list-view-card>
-    -->
+    <template #default="{ item: meetup }">
+      <list-view-card
+        :key="meetup.id"
+        tag="router-link"
+        :to="{ name: 'meetup', params: { meetupId: meetup.id } }"
+        :title="meetup.title"
+        :cover="meetup.cover"
+        :badge="meetup.badge"
+        :badge-success="meetup.isBadgeSuccess"
+      >
+        <meetup-info :date="meetup.date" :place="meetup.place" :organizer="meetup.organizer" />
+      </list-view-card>
+    </template>
   </list-view>
 </template>
 
@@ -28,12 +21,9 @@ import ListView from './ListView';
 import ListViewCard from './ListViewCard';
 import MeetupInfo from './MeetupInfo';
 import { getImageUrlByImageId } from '../data';
-
 export default {
   name: 'MeetupsList',
-
   components: { ListView, ListViewCard, MeetupInfo },
-
   props: {
     meetups: {
       type: Array,
@@ -47,7 +37,7 @@ export default {
         const newMeetup = { ...meetup };
         if (meetup.attending) {
           newMeetup.badge = 'Участвую';
-          newMeetup.badgeSuccess = true;
+          newMeetup.isBadgeSuccess = true;
         } else if (meetup.organizing) {
           newMeetup.badge = 'Организую';
         }
@@ -59,5 +49,3 @@ export default {
   },
 };
 </script>
-
-<style></style>
