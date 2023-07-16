@@ -7,9 +7,9 @@
     </div>
     <div class="meetups-list__col">
       <div class="meetups-list__description">
-        <span v-if="badge" class="meetups-list__badge" :class="{ 'meetups-list__badge_success': badgeSuccess }">{{
-          badge
-        }}</span>
+        <span v-if="badge" class="meetups-list__badge" :class="{ 'meetups-list__badge--success': badgeSuccess }"
+          >{{ badge }}
+        </span>
 
         <slot />
       </div>
@@ -107,7 +107,7 @@ export default {
   background-color: var(--blue-extra);
 }
 
-.meetups-list__badge.meetups-list__badge_success {
+.meetups-list__badge.meetups-list__badge--success {
   color: var(--green);
   background-color: var(--green-light);
 }

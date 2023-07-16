@@ -5,7 +5,7 @@
     </div>
 
     <div style="margin: 2rem; flex: 1 0">
-      <russian-holidays-calendar />
+      <russian-holidays-calendar></russian-holidays-calendar>
     </div>
   </div>
 </template>
